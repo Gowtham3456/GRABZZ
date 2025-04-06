@@ -7,7 +7,7 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
 export const Navbar = () => {
-  const [drawerOpen,setDrawerOpen]=useState(true);
+  const [drawerOpen,setDrawerOpen]=useState(false);
   const[navDrawerOpen,setNavDrawerOpen]=useState(false);
   const toggleNavDrawer=()=>{
     setNavDrawerOpen(!navDrawerOpen);
@@ -24,7 +24,8 @@ export const Navbar = () => {
         </div>
         {/* Center navigation link*/}
         <div className="hidden md:flex space-x-5">
-            <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">Mens</Link>
+            <Link to="/collections/all" 
+            className="text-gray-700 hover:text-black text-sm font-medium uppercase">Mens</Link>
             <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">Womens</Link>
             <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">BottomWear</Link>
             <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">TopWear</Link>
