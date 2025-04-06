@@ -19,6 +19,7 @@ export const NewArrivals = () => {
             price:120,
             image:[
                 {
+                
                     url:"https://picsum.photos/500/500?random=1",
                     altText:"Stylish Jacket",
                 },
