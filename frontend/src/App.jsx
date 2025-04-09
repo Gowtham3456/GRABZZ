@@ -11,6 +11,8 @@ import CollectionPage from "./pages/CollectionPage";
 import ProductDetails from "./components/Products/ProductDetails";
 import Checkout from "./components/Cart/Checkout";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
+import MyOrdersPage from "./pages/MyOrdersPage";
 
 export const App = () => {
   return (
@@ -26,6 +28,8 @@ export const App = () => {
         <Route path="product/:id" element={<ProductDetails/>}></Route>
         <Route path="checkout" element={<Checkout/>}></Route>
         <Route path="order-confirmation" element={<OrderConfirmationPage/>}></Route>
+        <Route path="order/:id" element={<OrderDetailsPage/>}></Route>
+        <Route path="my-orders" element={<MyOrdersPage/>}></Route>
 
       </Route>
       <Route>{/*admin layout*/}</Route>
