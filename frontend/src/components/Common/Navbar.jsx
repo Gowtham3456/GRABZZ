@@ -20,15 +20,15 @@ export const Navbar = () => {
       <nav className="container mx-auto flex items-center justify-between py-4 px-6">
         {/*logo left*/}
         <div>
-            <Link to="/" className="text-2xl font-medium">GraBzz</Link>
+            <Link to="/" className="text-3xl font-bold text-yellow-500">GraBzz</Link>
         </div>
         {/* Center navigation link*/}
         <div className="hidden md:flex space-x-5">
             <Link to="/collections/all" 
-            className="text-gray-700 hover:text-black text-sm font-medium uppercase">Mens</Link>
-            <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">Womens</Link>
-            <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">BottomWear</Link>
-            <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">TopWear</Link>
+            className="text-black hover:text-yellow-500 text-medium font-semibold uppercase">Mens</Link>
+            <Link to="#" className="text-black hover:text-yellow-500  text-medium font-semibold uppercase">Womens</Link>
+            <Link to="#" className="text-black  hover:text-yellow-500  text-medium font-semibold uppercase">BottomWear</Link>
+            <Link to="#" className="text-black  hover:text-yellow-500 text-medium font-semibold uppercase">TopWear</Link>
         </div>
         {/*Right Icons*/}
         <div className="flex items-center space-x-4">

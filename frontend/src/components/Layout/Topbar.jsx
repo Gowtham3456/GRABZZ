@@ -5,7 +5,7 @@ import { RiTwitterXLine } from "react-icons/ri"
 
 export const Topbar = () => {
   return (
-    <div className="bg-blue-500 text-white ">
+    <div className="bg-black text-white ">
         <div className="container mx-auto flex justify-between items-center py-3">
             <div className="hidden md:flex  items-center space-x-4">
                 <a href="#" className="hover:text-gray-300">
@@ -18,8 +18,8 @@ export const Topbar = () => {
                     <RiTwitterXLine />
                 </a>
             </div>
-            <div className="text-sm text-center flex-grow">
-                <span> This Is GRABZZ so you Always Grab</span>
+            <div className="text-xl font-bold text-center flex-grow">
+                <span> Grab the best ! Forget the Rest!</span>
             </div>
             <div className="hidden:block text-sm">
                 <a href="tel:+1234567890" className="hover:text-gray-300">
