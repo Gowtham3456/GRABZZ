@@ -32,6 +32,7 @@ export const Navbar = () => {
         </div>
         {/*Right Icons*/}
         <div className="flex items-center space-x-4">
+            <Link to="/admin" className="block bg-black rounded px-2 text-sm text-yellow-500">Admin</Link>
             <Link to="/profile" className="hover:text-black">
             <HiOutlineUser className="h-6 w-6 text-black-700"></HiOutlineUser>
             </Link>
