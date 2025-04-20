@@ -37,10 +37,15 @@ export const EditProductPage = () => {
         const file=e.target.files[0];
         console.log(file);
     }
+    //handle submit
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        console.log(productData);
+    }
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md ">
         <h2 className="text-2xl font-bold mb-6">Edit Product</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
             {/* name */}
             <div className="mb-6">
                 <label className="block font-semibold mb-2">Product Name</label>
@@ -135,8 +140,19 @@ export const EditProductPage = () => {
                 type="file"
                 onChange={handleImageUpload}>
                 </input>
+                <div className="flex gap-4 mt-4">
+                    {productData.images.map((image,index)=>(
+                        <div key={index}>
+                            <img src={image.url} alt={image.altText||"Product Image"}
+                            className="w-20 h-20 object-cover rounded shadow"></img>
 
+                        </div>
+                    ))}
+                </div>
             </div>
+            <button type="submit" className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-700 transition-colors">
+                    Update Product
+            </button>
         </form>
 
     </div>
