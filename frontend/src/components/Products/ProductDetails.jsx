@@ -115,7 +115,7 @@ export const ProductDetails = () => {
                         </img>
                    </div>
                 </div>
-                {/* Mobile Thumnail */}
+                {/* Mobile Thumbnail */}
                 <div className="md:hidden flex overscroll-x-scroll space-x-4 mb-4">
                     {selectedProduct.images.map((image,index)=> (
                             <img  
