@@ -3,6 +3,8 @@ const cors=require("cors");
 const dotenv=require("dotenv");
 const connectDB=require("./config/db");
 const userRoutes=require("./routes/userRoutes");
+//const productRoutes=require("./routes/productRoutes");
+const productRoutes=require("./routes/productRoutes");
 
 const app=express();
 app.use(express.json());
@@ -22,6 +24,7 @@ app.get("/",(req,res)=>{
 
 //API routes
 app.use("/api/users",userRoutes);
+app.use("/api/products",productRoutes);
 
 app.listen(PORT,()=>{
     console.log(`server is ruuning on http://localhost:${PORT}`);
