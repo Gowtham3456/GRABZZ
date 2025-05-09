@@ -3,61 +3,86 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ProductGrid from "./ProductGrid";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductDetails, fetchSimilarProducts } from "../../redux/slices/productsSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 //best seller ku use panrathu
-const selectedProduct={
-    name:"Stylish Jacket",
-    price:120,
-    originalPrice:150,
-    description:"This is a Stylish Jacket perfect for any occasion ",
-    brand:"FashionBrand",
-    material:"Leather",
-    sizes:["S","M","L","XL"],
-    colors:["Red","Black"],
-    images:[
-        {
-            url:"https://picsum.photos/500/500?random=1",
-            altText:"Stylish Jcaket 1"
-        },
-        {
-            url:"https://picsum.photos/500/500?random=2",
-            altText:"Stylish Jcaket 2"
-        },
-    ],
-};
-const similiarProducts=[
-    {
-        _id:1,
-        name:"Product 1",
-        price:100,
-        images:[{url:"https://picsum.photos/500/500?random=1"},]
-    },
-    {
-        _id:1,
-        name:"Product 2",
-        price:100,
-        images:[{url:"https://picsum.photos/500/500?random=2"},]
-    },
-    {
-        _id:3,
-        name:"Product 3",
-        price:100,
-        images:[{url:"https://picsum.photos/500/500?random=3"},]
-    },
-    {
-        _id:4,
-        name:"Product 4",
-        price:100,
-        images:[{url:"https://picsum.photos/500/500?random=4"},]
-    },
-]
-export const ProductDetails = () => {
-    const [mainImage,setMainImage]=useState("");
-    const [selectedSize,setSelectedSize]=useState("");
-    const [selectedColor,setSelectedColor]=useState("");
+// const selectedProduct={
+//     name:"Stylish Jacket",
+//     price:120,
+//     originalPrice:150,
+//     description:"This is a Stylish Jacket perfect for any occasion ",
+//     brand:"FashionBrand",
+//     material:"Leather",
+//     sizes:["S","M","L","XL"],
+//     colors:["Red","Black"],
+//     images:[
+//         {
+//             url:"https://picsum.photos/500/500?random=1",
+//             altText:"Stylish Jcaket 1"
+//         },
+//         {
+//             url:"https://picsum.photos/500/500?random=2",
+//             altText:"Stylish Jcaket 2"
+//         },
+//     ],
+// };
+// const similiarProducts=[
+//     {
+//         _id:1,
+//         name:"Product 1",
+//         price:100,
+//         images:[{url:"https://picsum.photos/500/500?random=1"},]
+//     },
+//     {
+//         _id:1,
+//         name:"Product 2",
+//         price:100,
+//         images:[{url:"https://picsum.photos/500/500?random=2"},]
+//     },
+//     {
+//         _id:3,
+//         name:"Product 3",
+//         price:100,
+//         images:[{url:"https://picsum.photos/500/500?random=3"},]
+//     },
+//     {
+//         _id:4,
+//         name:"Product 4",
+//         price:100,
+//         images:[{url:"https://picsum.photos/500/500?random=4"},]
+//     },
+// ]
+export const ProductDetails = ({productId}) => {
+    const {id}=useParams();
+    const dispatch=useDispatch();
+    const {selectedProduct,loading,error,similarProducts}=useSelector(
+        (state)=>state.products
+    );
+    const {user,guestId}=useSelector((state)=>state.auth);
+    const [mainImage,setMainImage]=useState(null);
+    const [selectedSize,setSelectedSize]=useState(null);
+    const [selectedColor,setSelectedColor]=useState(null);
 
     const [quantity,setQuantity]=useState(1);
-    const [isButtonDisabled,setIsButtonDiabled]=useState(false);
+    const [isButtonDisabled,setIsButtonDisabled]=useState(false);
+
+    const productFetchId=productId||id;
+    useEffect(()=>{
+        if(productFetchId){
+            dispatch(fetchProductDetails(productFetchId));
+            dispatch(fetchSimilarProducts({id:productFetchId}));
+        }
+    },[dispatch,productFetchId]);
+
+    useEffect(()=>{
+        if(selectedProduct?.images?.length>0)
+        {
+            setMainImage(selectedProduct.images[0].url);
+        }
+    },[selectedProduct]);
 
     //quantity change
     const handleQuantityChange=(action)=>{
@@ -73,24 +98,43 @@ export const ProductDetails = () => {
             });
             return;
         }
-        setIsButtonDiabled(true);
-        setTimeout(()=>{
-            toast.success("Product Added to the cart",{
+        setIsButtonDisabled(true);
+        dispatch(
+            addToCart({
+                productId:productFetchId,
+                quantity,
+                size:selectedSize,
+                color:selectedColor,
+                guestId,
+                userId:user?._id,
+            })
+        ).then(()=>{
+            toast.success("Product added to the cart!",{
                 duration:1000,
             });
-        setIsButtonDiabled(false);
-        },500);
-    }
+        })
+        .finally(()=>{
+            setIsButtonDisabled(false);
+        });
+        // setTimeout(()=>{
+        //     toast.success("Product Added to the cart",{
+        //         duration:1000,
+        //     });
+        // setIsButtonDiabled(false);
+        // },500);
+    };
 
+if(loading){
+    return <p>Loading...</p>
+}
 
-    useEffect(()=>{
-        if(selectedProduct?.images?.length>0)
-        {
-            setMainImage(selectedProduct.images[0].url);
-        }
-    },[selectedProduct]);
+if(error){
+    return <p> Error:{error}</p>
+}
+    
   return (
     <div className="p-6">
+        {selectedProduct&&(
         <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg">
             <div className="flex flex-col md:flex-row">
                 {/* Left thumnails */}
@@ -134,7 +178,7 @@ export const ProductDetails = () => {
                         <h1 className="text-2xl md:text-3xl font-semibold mb-2">
                             {selectedProduct.name}
                         </h1>
-                        <p className="text-lg text-gary-600 mb-1 line-through">
+                        <p className="text-lg text-gray-600 mb-1 line-through">
                             ${selectedProduct.originalPrice && `${selectedProduct.originalPrice}`}
                         </p>
                         <p className="text-xl text-gray-500 mb-2">
@@ -216,9 +260,10 @@ export const ProductDetails = () => {
             </div>
             <div className="mt-20 " >
                 <h2 className="text-3xl text-center font-bold mb-4"> You May Also Like</h2>
-                <ProductGrid products={similiarProducts}/>
+                <ProductGrid products={similarProducts} loading={loading} error={error}/>
             </div>
         </div>
+        )}
     </div>
   )
 }

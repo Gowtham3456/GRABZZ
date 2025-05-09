@@ -5,10 +5,15 @@ import SearchBar from "./SearchBar";
 import CardDrawer from "../Layout/CardDrawer";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 export const Navbar = () => {
   const [drawerOpen,setDrawerOpen]=useState(false);
   const[navDrawerOpen,setNavDrawerOpen]=useState(false);
+  const {cart}=useSelector((state)=>state.cart);
+
+  const cartItemCount=cart?.products?.reduce((total,product)=>total+product.quantity,0)||0;
+
   const toggleNavDrawer=()=>{
     setNavDrawerOpen(!navDrawerOpen);
   }
@@ -24,11 +29,11 @@ export const Navbar = () => {
         </div>
         {/* Center navigation link*/}
         <div className="hidden md:flex space-x-5">
-            <Link to="/collections/all" 
+            <Link to="/collections/all?gender=Men" 
             className="text-black hover:text-yellow-500 text-medium font-semibold uppercase">Mens</Link>
-            <Link to="#" className="text-black hover:text-yellow-500  text-medium font-semibold uppercase">Womens</Link>
-            <Link to="#" className="text-black  hover:text-yellow-500  text-medium font-semibold uppercase">BottomWear</Link>
-            <Link to="#" className="text-black  hover:text-yellow-500 text-medium font-semibold uppercase">TopWear</Link>
+            <Link to="/collections/all?gender=Women" className="text-black hover:text-yellow-500  text-medium font-semibold uppercase">Womens</Link>
+            <Link to="/collections/all?category=Top Wear" className="text-black  hover:text-yellow-500  text-medium font-semibold uppercase">BottomWear</Link>
+            <Link to="/collections/all?category=Bottom Wear" className="text-black  hover:text-yellow-500 text-medium font-semibold uppercase">TopWear</Link>
         </div>
         {/*Right Icons*/}
         <div className="flex items-center space-x-4">
@@ -38,7 +43,9 @@ export const Navbar = () => {
             </Link>
             <button  onClick={toggleDrawer} className="relative hover:text-blue">
                 <HiOutlineShoppingBag className="h-6 w-6 text-black-700"></HiOutlineShoppingBag>
-                <span className="absolute  -top-1 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">4</span>
+                {cartItemCount>0 && (<span className="absolute  -top-1 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                  {cartItemCount}</span>)}
+                
             </button>
             {/*search*/}
             <div className="overflow-hidden">
@@ -63,16 +70,16 @@ export const Navbar = () => {
         <div className="p-4">
           <h2 className="text-xl font-semobold mb-4">Menu</h2>
           <nav className="space-y-4">
-            <Link to="#" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
+            <Link to="/collections/all?gender=Men" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
               Men
             </Link>
-            <Link to="#" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
+            <Link to="/collections/all?gender=Women" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
               Women
             </Link>
-            <Link to="#" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
+            <Link to="/collections/all?category=Top Wear" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
               Topwears
             </Link>
-            <Link to="#" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
+            <Link to="/collections/all?category=Bottom Wear" onClick={toggleNavDrawer} className="block text-gray-600  hover:text-black border-b">
                 Bottomwears
             </Link>
           </nav>
